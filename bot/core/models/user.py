@@ -10,7 +10,6 @@ class User(
     GuildIDMixin,
 ):
     __tablename__ = "users"
-    _is_guild_id_foreign_key = True
 
     discord_id: Mapped[int] = mapped_column(unique=True, nullable=False)
     is_verified: Mapped[bool] = mapped_column(default=False)
