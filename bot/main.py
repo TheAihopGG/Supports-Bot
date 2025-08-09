@@ -5,6 +5,6 @@ from core.configuration import BOT_TOKEN
 
 
 bot = commands.InteractionBot(
-    intents=Intents.all(),
+    intents=Intents(),
 )
 bot.run(BOT_TOKEN)
