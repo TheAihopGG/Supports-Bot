@@ -6,7 +6,7 @@ from ...core.models import GuildSettings
 from ...services.guilds_settings import initialize_guild_settings, get_guild_settings
 
 
-class CommonCog(commands.Cog):
+class GuildSettingsCog(commands.Cog):
     @commands.slash_command()
     async def setup(self, inter: AppCmdInter) -> None:
         if inter.author.guild_permissions.administrator:
@@ -62,4 +62,4 @@ class CommonCog(commands.Cog):
             await inter.response.send_message(content="Недостаточно прав")
 
 
-__all__ = ("CommonCog",)
+__all__ = ("GuildSettingsCog",)
