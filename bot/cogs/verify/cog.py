@@ -16,11 +16,11 @@ class VerifyCog(commands.Cog):
     ) -> None:
         async with session_factory() as session:
             if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
-                if support_role := await inter.guild.get_role(guild_settings.support_role_id):
+                if support_role := inter.guild.get_role(guild_settings.support_role_id):
                     # if author is in support staff
                     if support_role in inter.author.roles:
                         # if gender_role is valid
-                        if gender_role in {guild_settings.male_role_id, guild_settings.female_role_id}:
+                        if gender_role.id in {guild_settings.male_role_id, guild_settings.female_role_id}:
                             await member.add_roles(gender_role)
                             await member.send(content="Вы успешно верифицированы")
                             await inter.response.send_message(content="Вы успешно верифицировали участника")

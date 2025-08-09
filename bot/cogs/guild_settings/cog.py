@@ -34,7 +34,6 @@ class GuildSettingsCog(commands.Cog):
             async with session_factory() as session:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
                     guild_settings.female_role_id = role.id
-                    await session.refresh(guild_settings)
                     await session.commit()
                     await inter.response.send_message(content="Успешно")
                 else:
@@ -52,7 +51,6 @@ class GuildSettingsCog(commands.Cog):
             async with session_factory() as session:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
                     guild_settings.male_role_id = role.id
-                    await session.refresh(guild_settings)
                     await session.commit()
                     await inter.response.send_message(content="Успешно")
                 else:
@@ -70,7 +68,6 @@ class GuildSettingsCog(commands.Cog):
             async with session_factory() as session:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
                     guild_settings.support_role_id = role.id
-                    await session.refresh(guild_settings)
                     await session.commit()
                     await inter.response.send_message(content="Успешно")
                 else:
