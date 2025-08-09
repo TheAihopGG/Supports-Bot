@@ -1,12 +1,11 @@
 from sqlalchemy.orm import mapped_column, Mapped
 
 from .base import Base
-from .mixins import IDMixin
+from .mixins import IDMixin, GuildIDMixin
 
 
-class GuildSettings(Base, IDMixin):
+class GuildSettings(Base, IDMixin, GuildIDMixin):
     __tablename__ = "guilds_settings"
-    guild_id: Mapped[int] = mapped_column(unique=True, nullable=False)
 
     male_role_id: Mapped[int] = mapped_column(nullable=True)
     female_role_id: Mapped[int] = mapped_column(nullable=True)
