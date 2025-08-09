@@ -5,7 +5,7 @@ from ...core.models import GuildSettings
 
 
 async def get_guild_settings(session: AsyncSession, *, guild_id: int) -> GuildSettings | None:
-    return await (
+    return (
         await session.execute(
             select(GuildSettings).where(GuildSettings.guild_id == guild_id),
         )

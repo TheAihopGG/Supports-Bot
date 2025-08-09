@@ -2,7 +2,6 @@ from disnake.ext import commands
 from disnake import AppCmdInter, Role
 
 from ...core.database import session_factory
-from ...core.models import GuildSettings
 from ...services.guilds_settings import initialize_guild_settings, get_guild_settings
 
 

@@ -24,7 +24,7 @@ LOGGING_LEVEL: Literal[10, 20, 30, 40, 50] = logging.INFO
 LOGGING_FORMAT: str = "%(asctime)s [%(levelname)s] %(message)s"
 LOGGING_DATETIME_FORMAT: str = "%Y-%m-%d %H:%M:%S"
 
-PROD_SQLALCHEMY_URL = f"aiosqlite+sqlite:///./bot/databases/prod_database.db"
-DEV_SQLALCHEMY_URL = f"aiosqlite+sqlite:///./bot/databases/dev_database.db"
+PROD_SQLALCHEMY_URL = f"sqlite+aiosqlite:///./bot/databases/prod_database.db"
+DEV_SQLALCHEMY_URL = f"sqlite+aiosqlite:///./bot/databases/dev_database.db"
 
 BOT_TOKEN = getenv("BOT_TOKEN")
