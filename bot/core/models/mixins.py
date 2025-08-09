@@ -7,4 +7,10 @@ class IDMixin:
         return mapped_column(primary_key=True, index=True)
 
 
+class GuildIDMixin:
+    @declared_attr
+    def guild_id(cls) -> Mapped[int]:
+        return mapped_column(unique=True)
+
+
 __all__ = ("IDMixin",)
