@@ -23,6 +23,8 @@ class VerifyCog(commands.Cog):
                         if not user.is_verified:
                             # if gender_role is valid
                             if gender_role.id in {guild_settings.male_role_id, guild_settings.female_role_id}:
+                                user.is_verified = True
+                                await session.commit()
                                 await member.add_roles(gender_role)
                                 await member.send(content="Вы успешно верифицированы")
                                 await inter.response.send_message(content="Вы успешно верифицировали участника")
