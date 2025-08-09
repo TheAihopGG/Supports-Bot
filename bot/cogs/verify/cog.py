@@ -3,7 +3,7 @@ from disnake import AppCmdInter, Member, Role
 
 from ...core.database import session_factory
 from ...services.guilds_settings import get_guild_settings
-from ...services.user import get_or_create_user_by_discord_id
+from ...services.users import get_or_create_user_by_discord_id
 
 
 class VerifyCog(commands.Cog):
