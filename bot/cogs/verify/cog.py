@@ -19,10 +19,14 @@ class VerifyCog(commands.Cog):
                 if support_role := inter.guild.get_role(guild_settings.support_role_id):
                     # if author is in support staff
                     if support_role in inter.author.roles:
-                        user = await get_or_create_user_by_discord_id(session, discord_id=member.id)
+                        user = await get_or_create_user_by_discord_id(
+                            session,
+                            discord_id=member.id,
+                            guild_id=inter.guild_id,
+                        )
                         if not user.is_verified:
                             # if gender_role is valid
-                            if gender_role.id in {guild_settings.male_role_id, guild_settings.female_role_id}:
+                            if gender_role.id in {guild_settings.male_role_id, guild_settings.female_role_id} and inter.author.guild_permissions.administrator:
                                 user.is_verified = True
                                 await session.commit()
                                 await member.add_roles(gender_role)
