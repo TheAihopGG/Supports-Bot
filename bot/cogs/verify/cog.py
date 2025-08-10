@@ -1,6 +1,6 @@
 from disnake.ext import commands
 from disnake.ext.commands import Param
-from disnake import AppCmdInter, Member, Role
+from disnake import AppCmdInter, Member
 from enum import StrEnum, auto
 
 from ...core.database import session_factory

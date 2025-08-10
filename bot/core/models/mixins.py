@@ -1,4 +1,3 @@
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import declared_attr, Mapped, mapped_column
 
 

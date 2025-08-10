@@ -6,7 +6,7 @@ You can find full configuration documentation at `./bot/docs/project_configurati
 
 import logging
 from os import getenv
-from typing import Literal, Sequence
+from typing import Literal
 from pathlib import Path
 from dotenv import load_dotenv
 
