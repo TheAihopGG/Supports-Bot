@@ -11,9 +11,15 @@ class SupportRoleWasSetEmbed(SuccessEmbed):
         super().__init__(description="Роль поддержки сервера успешно установлена.")
 
 
-class GuildSetupWasSuccessful(SuccessEmbed):
+class GuildSetupWasSuccessfulEmbed(SuccessEmbed):
     def __init__(self) -> None:
         super().__init__(description="Сервер успешно настроен.")
+        self.add_field(
+            "Дополнительная настройка",
+            "</set support_role:1403720935605014591> устанавливает роль поддержки сервера.\n"
+            "</set female_role:1403720935605014591> устанавливает роль для женского пола.\n"
+            "</set male_role:1403720935605014591> устанавливает роль для мужского пола.",
+        )
 
 
 class GuildWasAlreadySetup(SuccessEmbed):
