@@ -6,8 +6,9 @@ from bot.core.configuration import BOT_TOKEN
 from bot.cogs.guild_settings.cog import GuildSettingsCog
 from bot.cogs.verify.cog import VerifyCog
 
-
-bot = commands.InteractionBot()
+intents = Intents.default()
+intents.members = True
+bot = commands.InteractionBot(intents=intents)
 [
     bot.add_cog(cog())
     for cog in {
