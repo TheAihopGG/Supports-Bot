@@ -1,4 +1,5 @@
 from disnake.ext import commands
+from disnake.ext.commands import Param
 from disnake import AppCmdInter, Member, Role
 
 from ...core.database import session_factory
@@ -9,12 +10,12 @@ from .embeds import SupportRoleWasDeletedEmbed, SupportRoleWasNotSetEmbed, Incor
 
 
 class VerifyCog(commands.Cog):
-    @commands.slash_command()
-    async def verify(
+    @commands.slash_command(name="verify", description="Верифицирует участника.")
+    async def verify_member(
         self,
         inter: AppCmdInter,
-        member: Member,
-        gender_role: Role,
+        member: Member = Param(description="Верифицируемый участник."),
+        gender_role: Role = Param(description="Гендер роль."),
     ) -> None:
         async def verify_member_if_not_verified_yet():
             if not user.is_verified:
