@@ -1,8 +1,9 @@
 from disnake.ext import commands
-from disnake import AppCmdInter, Role
+from disnake import AppCmdInter, Member, Role
 
 from ...core.database import session_factory
 from ...services.guilds_settings import initialize_guild_settings, get_guild_settings
+from ...services.users import get_or_create_user_by_discord_id, remove_user_by_discord_id
 
 
 class GuildSettingsCog(commands.Cog):
@@ -74,6 +75,11 @@ class GuildSettingsCog(commands.Cog):
                     await inter.response.send_message(content="Сервер уже настроен")
         else:
             await inter.response.send_message(content="Недостаточно прав")
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member: Member) -> None:
+        async with session_factory() as session:
+            await get_or_create_user_by_discord_id(session, discord_id=member.id, guild_id=member.guild.id)
 
 
 __all__ = ("GuildSettingsCog",)
