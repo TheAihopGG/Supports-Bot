@@ -13,7 +13,7 @@ class SupportRoleWasSetEmbed(SuccessEmbed):
 
 class UnverifiedRoleWasSetEmbed(SuccessEmbed):
     def __init__(self) -> None:
-        super().__init__(description="Роль не верифицированных участников сервера успешно установлена.")
+        super().__init__(description="Роль для не верифицированных участников сервера успешно установлена.")
 
 
 class GuildSetupWasSuccessfulEmbed(SuccessEmbed):
@@ -23,6 +23,7 @@ class GuildSetupWasSuccessfulEmbed(SuccessEmbed):
             "Дополнительная настройка",
             "</set support_role:1403720935605014591> устанавливает роль поддержки сервера.\n"
             "</set female_role:1403720935605014591> устанавливает роль для женского пола.\n"
+            "</set unverified_role:1403720935605014591> устанавливает роль для не верифицированных участников.\n"
             "</set male_role:1403720935605014591> устанавливает роль для мужского пола.",
         )
 

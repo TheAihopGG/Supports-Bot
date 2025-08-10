@@ -29,3 +29,8 @@ class YouSuccessfullyVerifiedEmbed(ErrorEmbed):
 class MemberWasAlreadyVerifiedEmbed(ErrorEmbed):
     def __init__(self) -> None:
         super().__init__(description="Участник уже верифицирован.")
+
+
+class GenderRolesWasNotSetEmbed(ErrorEmbed):
+    def __init__(self) -> None:
+        super().__init__(description="Роли гендера не установлены или удалены")

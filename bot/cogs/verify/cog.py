@@ -8,7 +8,15 @@ from ...core.embeds import GuildWasNotSetupEmbed, NotEnoughPermissionsEmbed
 from ...core.models import User
 from ...services.guilds_settings import get_guild_settings
 from ...services.users import get_or_create_user_by_discord_id
-from .embeds import SupportRoleWasDeletedEmbed, SupportRoleWasNotSetEmbed, IncorrectGenderNameEmbed, YouSuccessfullyVerifiedMemberEmbed, YouSuccessfullyVerifiedEmbed, MemberWasAlreadyVerifiedEmbed
+from .embeds import (
+    SupportRoleWasDeletedEmbed,
+    SupportRoleWasNotSetEmbed,
+    GenderRolesWasNotSetEmbed,
+    YouSuccessfullyVerifiedMemberEmbed,
+    YouSuccessfullyVerifiedEmbed,
+    MemberWasAlreadyVerifiedEmbed,
+    IncorrectGenderNameEmbed,
+)
 
 
 class GenderEnum(StrEnum):
@@ -26,20 +34,21 @@ class VerifyCog(commands.Cog):
     ) -> None:
         async def verify_member_if_not_verified_yet(user: User):
             if not user.is_verified:
-                if gender_role := inter.guild.get_role(
-                    {
-                        GenderEnum.MALE: guild_settings.male_role_id,
-                        GenderEnum.FEMALE: guild_settings.female_role_id,
-                    }[gender_name]
-                ):
-                    user.is_verified = True
-                    await session.commit()
-                    # remove unverified role
-                    if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
-                        await member.remove_roles(unverified_role)
-                    await member.add_roles(gender_role)
-                    await member.send(embed=YouSuccessfullyVerifiedEmbed())
-                    await inter.response.send_message(embed=YouSuccessfullyVerifiedMemberEmbed())
+                if gender_role_id := {
+                    GenderEnum.MALE: guild_settings.male_role_id,
+                    GenderEnum.FEMALE: guild_settings.female_role_id,
+                }.get(gender_name, None):
+                    if gender_role := inter.guild.get_role(gender_role_id):
+                        user.is_verified = True
+                        # remove unverified role
+                        if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
+                            await member.remove_roles(unverified_role)
+                        await member.add_roles(gender_role)
+                        await session.commit()
+                        await member.send(embed=YouSuccessfullyVerifiedEmbed())
+                        await inter.response.send_message(embed=YouSuccessfullyVerifiedMemberEmbed())
+                    else:
+                        await inter.response.send_message(embed=GenderRolesWasNotSetEmbed(), ephemeral=True)
                 else:
                     await inter.response.send_message(embed=IncorrectGenderNameEmbed(), ephemeral=True)
             else:
