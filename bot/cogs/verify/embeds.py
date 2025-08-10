@@ -11,12 +11,12 @@ class SupportRoleWasNotSetEmbed(ErrorEmbed):
         super().__init__(description="Роль поддержки сервера не установлена. Используйте команду </set support_role:1403720935605014591>, чтобы установить роль поддержки сервера.")
 
 
-class IncorrectGenderRoleEmbed(ErrorEmbed):
+class IncorrectGenderNameEmbed(ErrorEmbed):
     def __init__(self) -> None:
-        super().__init__(description="Некорректная гендер роль.")
+        super().__init__(description="Некорректное название гендера.")
 
 
-class YouSuccessfullyVerifiedMemberEmbed(ErrorEmbed):
+class YouSuccessfullyVerifiedMemberEmbed(SuccessEmbed):
     def __init__(self) -> None:
         super().__init__(description="Вы успешно верифицировали участника.")
 

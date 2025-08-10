@@ -6,7 +6,7 @@ from ...core.database import session_factory
 from ...core.embeds import NotEnoughPermissionsEmbed, GuildWasNotSetupEmbed
 from .embeds import GenderRoleWasSetEmbed, SupportRoleWasSetEmbed, GuildSetupWasSuccessfulEmbed, GuildWasAlreadySetup
 from ...services.guilds_settings import initialize_guild_settings, get_guild_settings
-from ...services.users import get_or_create_user_by_discord_id, remove_user_by_discord_id
+from ...services.users import get_or_create_user_by_discord_id
 
 
 class GuildSettingsCog(commands.Cog):
