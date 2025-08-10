@@ -99,6 +99,9 @@ class GuildSettingsCog(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member: Member) -> None:
         async with session_factory() as session:
+            if guild_settings := await get_guild_settings(session, guild_id=member.guild.id):
+                if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
+                    await member.add_roles(unverified_role)
             # add member to database
             await get_or_create_user_by_discord_id(session, discord_id=member.id, guild_id=member.guild.id)
 

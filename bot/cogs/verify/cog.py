@@ -34,6 +34,9 @@ class VerifyCog(commands.Cog):
                 ):
                     user.is_verified = True
                     await session.commit()
+                    # remove unverified role
+                    if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
+                        await member.remove_roles(unverified_role)
                     await member.add_roles(gender_role)
                     await member.send(embed=YouSuccessfullyVerifiedEmbed())
                     await inter.response.send_message(embed=YouSuccessfullyVerifiedMemberEmbed())
