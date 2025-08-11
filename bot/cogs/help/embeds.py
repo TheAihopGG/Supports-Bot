@@ -17,7 +17,9 @@ class HelpForSectionEmbed(InfoEmbed):
                     f"</setup:{CommandsIdEnum.SETUP_CMD_ID}> устанавливает роль для женского пола.\n",
                 )
             case HelpMenuSectionsEnum.VERIFICATION:
-                self.add_field(f"Команды раздела **{section_name}**", f"</verify:{CommandsIdEnum.VERIFY_CMD_ID}> устанавливает роль поддержки сервера.")
+                self.add_field(
+                    f"Команды раздела **{section_name}**", f"</verify:{CommandsIdEnum.VERIFY_CMD_ID}> верифицирует участника, выдаёт ему гендер-роль и забирает роль не верифицированного участника."
+                )
             case HelpMenuSectionsEnum.COMMON:
                 self.add_field(f"Команды раздела **{section_name}**", f"</help:{CommandsIdEnum.HELP_CMD_ID}> помощь по функционалу бота.")
 
