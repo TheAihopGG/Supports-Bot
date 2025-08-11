@@ -21,7 +21,7 @@ class YouSuccessfullyVerifiedMemberEmbed(SuccessEmbed):
         super().__init__(description="Вы успешно верифицировали участника.")
 
 
-class YouSuccessfullyVerifiedEmbed(ErrorEmbed):
+class YouSuccessfullyVerifiedEmbed(SuccessEmbed):
     def __init__(self) -> None:
         super().__init__(description="Вы успешно верифицированы.")
 

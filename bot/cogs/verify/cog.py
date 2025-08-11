@@ -1,6 +1,7 @@
 from disnake.ext import commands
 from disnake.ext.commands import Param
 from disnake import AppCmdInter, Member
+from disnake.ext.commands.errors import CommandInvokeError
 from enum import StrEnum, auto
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -33,66 +34,86 @@ class VerifyCog(commands.Cog):
         member: Member = Param(description="Верифицируемый участник."),
         gender_name: GenderEnum = Param(description="Гендер роль."),
     ) -> None:
-        async def verify_member_if_not_verified_yet(session: AsyncSession, user: User):
-            if not user.is_verified:
-                if gender_role_id := {
-                    GenderEnum.male: guild_settings.male_role_id,
-                    GenderEnum.female: guild_settings.female_role_id,
-                }.get(gender_name, None):
-                    if gender_role := inter.guild.get_role(gender_role_id):
-                        user.is_verified = True
-                        # remove unverified role
-                        if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
-                            await member.remove_roles(unverified_role)
-                        await member.add_roles(gender_role)
-                        await session.commit()
-                        await member.send(embed=YouSuccessfullyVerifiedEmbed())
-                        await inter.response.send_message(embed=YouSuccessfullyVerifiedMemberEmbed())
-                    else:
-                        await inter.response.send_message(embed=GenderRolesWasNotSetEmbed(), ephemeral=True)
-                else:
-                    await inter.response.send_message(embed=IncorrectGenderNameEmbed(), ephemeral=True)
-            else:
-                await inter.response.send_message(embed=MemberWasAlreadyVerifiedEmbed(), ephemeral=True)
-
+        # TODO: убрать повторяющийся код
+        await inter.response.defer()
         async with session_factory() as session:
             if inter.author.guild_permissions.administrator:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
-                    await verify_member_if_not_verified_yet(
+                    user = await get_or_create_user_by_discord_id(
                         session,
-                        await get_or_create_user_by_discord_id(
-                            session,
-                            discord_id=member.id,
-                            guild_id=inter.guild_id,
-                        ),
+                        discord_id=member.id,
+                        guild_id=inter.guild_id,
                     )
+                    if not user.is_verified:
+                        if gender_role_id := {
+                            GenderEnum.male: guild_settings.male_role_id,
+                            GenderEnum.female: guild_settings.female_role_id,
+                        }.get(gender_name, None):
+                            if gender_role := inter.guild.get_role(gender_role_id):
+                                user.is_verified = True
+                                # remove unverified role
+                                if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
+                                    await member.remove_roles(unverified_role)
+                                await member.add_roles(gender_role)
+                                await session.commit()
+                                try:
+                                    await member.send(embed=YouSuccessfullyVerifiedEmbed())
+                                except CommandInvokeError:
+                                    pass
+                                await inter.edit_original_response(embed=YouSuccessfullyVerifiedMemberEmbed())
+                            else:
+                                await inter.edit_original_response(embed=GenderRolesWasNotSetEmbed())
+                        else:
+                            await inter.edit_original_response(embed=IncorrectGenderNameEmbed())
+                    else:
+                        await inter.edit_original_response(embed=MemberWasAlreadyVerifiedEmbed())
                 else:
-                    await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
+                    await inter.edit_original_response(embed=GuildWasNotSetupEmbed())
             else:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
                     if guild_settings.support_role_id:
                         if support_role := guild_settings.support_role_id:
                             # if author is in support staff
                             if support_role in inter.author.roles:
-                                await verify_member_if_not_verified_yet(
+                                user = await get_or_create_user_by_discord_id(
                                     session,
-                                    await get_or_create_user_by_discord_id(
-                                        session,
-                                        discord_id=member.id,
-                                        guild_id=inter.guild_id,
-                                    ),
+                                    discord_id=member.id,
+                                    guild_id=inter.guild_id,
                                 )
+                                if not user.is_verified:
+                                    if gender_role_id := {
+                                        GenderEnum.male: guild_settings.male_role_id,
+                                        GenderEnum.female: guild_settings.female_role_id,
+                                    }.get(gender_name, None):
+                                        if gender_role := inter.guild.get_role(gender_role_id):
+                                            user.is_verified = True
+                                            # remove unverified role
+                                            if unverified_role := member.guild.get_role(guild_settings.unverified_role_id):
+                                                await member.remove_roles(unverified_role)
+                                            await member.add_roles(gender_role)
+                                            await session.commit()
+                                            try:
+                                                await member.send(embed=YouSuccessfullyVerifiedEmbed())
+                                            except CommandInvokeError:
+                                                pass
+                                            await inter.edit_original_response(embed=YouSuccessfullyVerifiedMemberEmbed())
+                                        else:
+                                            await inter.edit_original_response(embed=GenderRolesWasNotSetEmbed())
+                                    else:
+                                        await inter.edit_original_response(embed=IncorrectGenderNameEmbed())
+                                else:
+                                    await inter.edit_original_response(embed=MemberWasAlreadyVerifiedEmbed())
                             else:
-                                await inter.response.send_message(content=NotEnoughPermissionsEmbed(), ephemeral=True)
+                                await inter.edit_original_response(content=NotEnoughPermissionsEmbed())
                         else:
-                            await inter.response.send_message(embed=SupportRoleWasDeletedEmbed(), ephemeral=True)
+                            await inter.edit_original_response(embed=SupportRoleWasDeletedEmbed())
                     else:
-                        await inter.response.send_message(
+                        await inter.edit_original_response(
                             embed=SupportRoleWasNotSetEmbed(),
                             ephemeral=True,
                         )
                 else:
-                    await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
+                    await inter.edit_original_response(embed=GuildWasNotSetupEmbed())
 
 
 __all__ = ("VerifyCog",)
