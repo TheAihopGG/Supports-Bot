@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class CommandsIdEnum(Enum):
+class CommandsIdEnum(IntEnum):
     SET_CMD_ID = 1404112400554262671
     SETUP_CMD_ID = 1404112400554262670
     VERIFY_CMD_ID = 1404112400554262673
