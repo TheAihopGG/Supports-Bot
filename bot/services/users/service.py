@@ -14,7 +14,6 @@ async def get_or_create_user_by_discord_id(session: AsyncSession, *, discord_id:
     else:
         user = User(discord_id=discord_id, guild_id=guild_id)
         session.add(user)
-        await session.commit()
         return user
 
 

@@ -1,8 +1,8 @@
-"""Create tables
+"""Fix
 
-Revision ID: 5c1d267f8942
+Revision ID: b4572c292bd2
 Revises: 
-Create Date: 2025-08-09 21:56:17.397533
+Create Date: 2025-08-11 17:46:40.991129
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '5c1d267f8942'
+revision: str = 'b4572c292bd2'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,6 +25,7 @@ def upgrade() -> None:
     sa.Column('male_role_id', sa.Integer(), nullable=True),
     sa.Column('female_role_id', sa.Integer(), nullable=True),
     sa.Column('support_role_id', sa.Integer(), nullable=True),
+    sa.Column('unverified_role_id', sa.Integer(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('guild_id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
@@ -37,8 +38,7 @@ def upgrade() -> None:
     sa.Column('is_verified', sa.Boolean(), nullable=False),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('discord_id'),
-    sa.UniqueConstraint('guild_id')
+    sa.UniqueConstraint('discord_id')
     )
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
     # ### end Alembic commands ###
