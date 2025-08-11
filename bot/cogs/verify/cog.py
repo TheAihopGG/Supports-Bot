@@ -2,6 +2,7 @@ from disnake.ext import commands
 from disnake.ext.commands import Param
 from disnake import AppCmdInter, Member
 from enum import StrEnum, auto
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...core.database import session_factory
 from ...core.embeds import GuildWasNotSetupEmbed, NotEnoughPermissionsEmbed
@@ -32,7 +33,7 @@ class VerifyCog(commands.Cog):
         member: Member = Param(description="Верифицируемый участник."),
         gender_name: GenderEnum = Param(description="Гендер роль."),
     ) -> None:
-        async def verify_member_if_not_verified_yet(user: User):
+        async def verify_member_if_not_verified_yet(session: AsyncSession, user: User):
             if not user.is_verified:
                 if gender_role_id := {
                     GenderEnum.MALE: guild_settings.male_role_id,
@@ -58,11 +59,12 @@ class VerifyCog(commands.Cog):
             if inter.author.guild_permissions.administrator:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
                     await verify_member_if_not_verified_yet(
+                        session,
                         await get_or_create_user_by_discord_id(
                             session,
                             discord_id=member.id,
                             guild_id=inter.guild_id,
-                        )
+                        ),
                     )
                 else:
                     await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
@@ -73,11 +75,12 @@ class VerifyCog(commands.Cog):
                             # if author is in support staff
                             if support_role in inter.author.roles:
                                 await verify_member_if_not_verified_yet(
+                                    session,
                                     await get_or_create_user_by_discord_id(
                                         session,
                                         discord_id=member.id,
                                         guild_id=inter.guild_id,
-                                    )
+                                    ),
                                 )
                             else:
                                 await inter.response.send_message(content=NotEnoughPermissionsEmbed(), ephemeral=True)
