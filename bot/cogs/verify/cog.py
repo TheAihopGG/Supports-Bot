@@ -34,6 +34,8 @@ class VerifyCog(commands.Cog):
         member: Member = Param(description="Верифицируемый участник."),
         gender_name: GenderEnum = Param(description="Гендер роль."),
     ) -> None:
+        # TODO: убрать повторяющийся код
+        await inter.response.defer()
         async with session_factory() as session:
             if inter.author.guild_permissions.administrator:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
@@ -58,15 +60,15 @@ class VerifyCog(commands.Cog):
                                     await member.send(embed=YouSuccessfullyVerifiedEmbed())
                                 except CommandInvokeError:
                                     pass
-                                await inter.response.send_message(embed=YouSuccessfullyVerifiedMemberEmbed())
+                                await inter.edit_original_response(embed=YouSuccessfullyVerifiedMemberEmbed())
                             else:
-                                await inter.response.send_message(embed=GenderRolesWasNotSetEmbed(), ephemeral=True)
+                                await inter.edit_original_response(embed=GenderRolesWasNotSetEmbed())
                         else:
-                            await inter.response.send_message(embed=IncorrectGenderNameEmbed(), ephemeral=True)
+                            await inter.edit_original_response(embed=IncorrectGenderNameEmbed())
                     else:
-                        await inter.response.send_message(embed=MemberWasAlreadyVerifiedEmbed(), ephemeral=True)
+                        await inter.edit_original_response(embed=MemberWasAlreadyVerifiedEmbed())
                 else:
-                    await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
+                    await inter.edit_original_response(embed=GuildWasNotSetupEmbed())
             else:
                 if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
                     if guild_settings.support_role_id:
@@ -94,24 +96,24 @@ class VerifyCog(commands.Cog):
                                                 await member.send(embed=YouSuccessfullyVerifiedEmbed())
                                             except CommandInvokeError:
                                                 pass
-                                            await inter.response.send_message(embed=YouSuccessfullyVerifiedMemberEmbed())
+                                            await inter.edit_original_response(embed=YouSuccessfullyVerifiedMemberEmbed())
                                         else:
-                                            await inter.response.send_message(embed=GenderRolesWasNotSetEmbed(), ephemeral=True)
+                                            await inter.edit_original_response(embed=GenderRolesWasNotSetEmbed())
                                     else:
-                                        await inter.response.send_message(embed=IncorrectGenderNameEmbed(), ephemeral=True)
+                                        await inter.edit_original_response(embed=IncorrectGenderNameEmbed())
                                 else:
-                                    await inter.response.send_message(embed=MemberWasAlreadyVerifiedEmbed(), ephemeral=True)
+                                    await inter.edit_original_response(embed=MemberWasAlreadyVerifiedEmbed())
                             else:
-                                await inter.response.send_message(content=NotEnoughPermissionsEmbed(), ephemeral=True)
+                                await inter.edit_original_response(content=NotEnoughPermissionsEmbed())
                         else:
-                            await inter.response.send_message(embed=SupportRoleWasDeletedEmbed(), ephemeral=True)
+                            await inter.edit_original_response(embed=SupportRoleWasDeletedEmbed())
                     else:
-                        await inter.response.send_message(
+                        await inter.edit_original_response(
                             embed=SupportRoleWasNotSetEmbed(),
                             ephemeral=True,
                         )
                 else:
-                    await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
+                    await inter.edit_original_response(embed=GuildWasNotSetupEmbed())
 
 
 __all__ = ("VerifyCog",)
