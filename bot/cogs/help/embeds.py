@@ -1,4 +1,5 @@
 from ...core.base_embeds import InfoEmbed
+from ...core.enums import CommandsIdEnum
 from .enums import HelpMenuSectionsEnum
 
 
@@ -9,12 +10,16 @@ class HelpForSectionEmbed(InfoEmbed):
             case HelpMenuSectionsEnum.GUILD_SETTINGS:
                 self.add_field(
                     f"Команды раздела **{section_name}**",
-                    "</set support_role:1403720935605014591> устанавливает роль поддержки сервера.\n"
-                    "</set female_role:1403720935605014591> устанавливает роль для женского пола.\n"
-                    "</set male_role:1403720935605014591> устанавливает роль для мужского пола.",
+                    f"</set support_role:{CommandsIdEnum.SET_CMD_ID}> устанавливает роль поддержки сервера.\n"
+                    f"</set female_role:{CommandsIdEnum.SET_CMD_ID}> устанавливает роль для женского пола.\n"
+                    f"</set unverified_role:{CommandsIdEnum.SET_CMD_ID}> устанавливает роль для женского пола.\n"
+                    f"</set male_role:{CommandsIdEnum.SET_CMD_ID}> устанавливает роль для мужского пола.\n"
+                    f"</setup:{CommandsIdEnum.SETUP_CMD_ID}> устанавливает роль для женского пола.\n",
                 )
             case HelpMenuSectionsEnum.VERIFICATION:
-                self.add_field(f"Команды раздела **{section_name}**", "</verify:1403720935605014592> устанавливает роль поддержки сервера.")
+                self.add_field(f"Команды раздела **{section_name}**", f"</verify:{CommandsIdEnum.VERIFY_CMD_ID}> устанавливает роль поддержки сервера.")
+            case HelpMenuSectionsEnum.COMMON:
+                self.add_field(f"Команды раздела **{section_name}**", f"</help:{CommandsIdEnum.HELP_CMD_ID}> помощь по функционалу бота.")
 
 
 class HelpEmbed(InfoEmbed):

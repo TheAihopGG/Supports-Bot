@@ -15,6 +15,7 @@ class HelpView(View):
                 options=[
                     SelectOption(label="Настройка сервера", value=HelpMenuSectionsEnum.GUILD_SETTINGS),
                     SelectOption(label="Верификация", value=HelpMenuSectionsEnum.VERIFICATION),
+                    SelectOption(label="Общее", value=HelpMenuSectionsEnum.COMMON),
                 ],
             )
 
