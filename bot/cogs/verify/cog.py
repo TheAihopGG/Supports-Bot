@@ -21,8 +21,8 @@ from .embeds import (
 
 
 class GenderEnum(StrEnum):
-    MALE = auto()
-    FEMALE = auto()
+    male = auto()
+    female = auto()
 
 
 class VerifyCog(commands.Cog):
@@ -36,8 +36,8 @@ class VerifyCog(commands.Cog):
         async def verify_member_if_not_verified_yet(session: AsyncSession, user: User):
             if not user.is_verified:
                 if gender_role_id := {
-                    GenderEnum.MALE: guild_settings.male_role_id,
-                    GenderEnum.FEMALE: guild_settings.female_role_id,
+                    GenderEnum.male: guild_settings.male_role_id,
+                    GenderEnum.female: guild_settings.female_role_id,
                 }.get(gender_name, None):
                     if gender_role := inter.guild.get_role(gender_role_id):
                         user.is_verified = True
