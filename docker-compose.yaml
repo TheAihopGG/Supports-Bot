@@ -1,0 +1,8 @@
+services:
+  bot:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    depends_on:
+      pg:
+        condition: service_healthy

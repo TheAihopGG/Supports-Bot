@@ -16,7 +16,13 @@ ENV_FILENAME = BASE_DIR / ".env"
 
 assert load_dotenv(ENV_FILENAME), f"path ENV_FILENAME is not exists"
 
-IS_DEV_MODE = True
+IS_DEV_MODE = False
+
+POSTGRES_USERNAME = "postgres"
+POSTGRES_DATABASE_NAME = "database"
+POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
+POSTGRES_HOST = "localhost"
+POSTGRES_PORT = 5432
 
 LOGGING_FILENAME = BASE_DIR / "bot/logs/logs.log"
 LOGGING_FILEMODE: Literal["w", "a"] = "w"
@@ -24,7 +30,7 @@ LOGGING_LEVEL: Literal[10, 20, 30, 40, 50] = logging.INFO
 LOGGING_FORMAT: str = "%(asctime)s [%(levelname)s] %(message)s"
 LOGGING_DATETIME_FORMAT: str = "%Y-%m-%d %H:%M:%S"
 
-PROD_SQLALCHEMY_URL = f"sqlite+aiosqlite:///./bot/databases/prod_database.db"
+PROD_SQLALCHEMY_URL = f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DATABASE_NAME}"
 DEV_SQLALCHEMY_URL = f"sqlite+aiosqlite:///./bot/databases/dev_database.db"
 
 BOT_TOKEN = getenv("BOT_TOKEN")

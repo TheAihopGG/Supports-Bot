@@ -1,13 +1,22 @@
-[project]
+[tool.poetry]
 name = "supports-bot"
-version = "1.0.0"
-description = "Add your description here"
+version = "0.1.0"
+package-mode = false
+description = ""
+authors = ["theaihopgg <theaihopgg@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "aiosqlite>=0.21.0",
-    "alembic>=1.16.4",
-    "disnake>=2.10.1",
-    "python-dotenv>=1.1.1",
-    "sqlalchemy>=2.0.41",
-]
+packages = [{include = "supports_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+alembic = "^1.16.4"
+sqlalchemy = "^2.0.43"
+aiosqlite = "^0.21.0"
+disnake = "^2.10.1"
+dotenv = "^0.9.9"
+asyncpg = "^0.30.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

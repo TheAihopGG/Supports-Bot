@@ -1,6 +1,20 @@
-FROM python:3.12-slim-bookworm
-RUN pip install --upgrade pip
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+FROM python:3.13.6-slim-bookworm
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /supports-bot
+
+RUN pip install --upgrade pip wheel poetry
+
+RUN poetry config virtualenvs.create false
+
+COPY ./poetry.lock ./pyproject.toml ./
+RUN poetry install
+
 COPY . .
-CMD ["python3", "./main.py"]
+
+RUN chmod +x prestart.sh
+
+ENTRYPOINT ["./prestart.sh"]
+CMD ["python3 ./main.py"]
