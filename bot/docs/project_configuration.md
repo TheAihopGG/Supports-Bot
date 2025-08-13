@@ -2,7 +2,7 @@
 
 - `ENV_FILENAME: Path`
 
-  Path to env config
+  Path to `.env` file
 
 - `IS_DEV_MODE: bool`
 
@@ -10,7 +10,7 @@
 
 - `LOGGING_FILENAME`
 
-  Path to logs file
+  Path to logs file. Example: `./bot/logs/logs.log`
 
 - `LOGGING_FILEMODE`
 
@@ -26,4 +26,4 @@
 
 - `BOT_TOKEN`
 
-  Bot token from env config.
+  Bot token from `.env` file.

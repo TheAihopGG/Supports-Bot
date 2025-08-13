@@ -1,85 +1,77 @@
 # Project Structure
 
-- `/bot`
+## Bot structure
 
-  The package is the main.
+### 1. Cogs
 
-- `/bot/assets`
+The `./bot/cogs` contains special directories, cogs. About [cogs' structure](#cog-structure)
 
-  The directory contains images, fonts, medias, ect.
+### 2. Services
 
-- `/bot/cogs`
+The `./bot/services` contains special directories, services. In them, the bot handles disnake events. About [services' structure](#service-structure)
 
-  The package contains cog files.
+### 3. Core
 
-- `/bot/cogs/template_cog`
+The `./bot/core` contains special modules, which is required for cogs and services.
 
-  The package contains some modules for cog.
+#### 3.1. `base_embeds.py`
 
-- `/bot/cogs/template_cog/cog.py`
+Module contains some classes inherited from `disnake.Embed`. You can use them to your code shorter.
 
-  The file contains class which inherits from `commands.Cog`.
+There are classes:
 
-- `/bot/cogs/template_cog/views.py`
+- `TimestampEmbed`
+- `ErrorEmbed`
+- `CriticalErrorEmbed`
+- `SuccessEmbed`
+- `WarningEmbed`
+- `InfoEmbed`
 
-  The file contains classes which inherits from `disnake.ui.View`.
+#### 3.2. `configuration.py`
 
-- `/bot/cogs/template_cog/modals.py`
+There are the project configuration. See [project configuration](./project_configuration.md) for more information.
 
-  The file contains classes which inherits from `disnake.ui.Modal`.
+#### 3.3. `database.py`
 
-- `/bot/cogs/template_cog/embeds.py`
+This module is designed to create a database connection.
 
-  The file contains frequently used objects of `disnake.Embed`. Every variable in this file - lambda function, which returns object of `disnake.Embed`.
+To create a async connection, execute:
 
-- `/bot/core`
+```python
+async with session_factory() as session:
+  ...
+```
 
-  The package contains modules required for the operation of cogs.
+#### 3.4. `logger.py`
 
-- `/bot/core/database.py`
+This module is designed to interact with logging system. Use `logger` to interact with logging system.
 
-  The file contains sqlalchemy objects for database interaction.
+#### 3.5. `utils.py`
 
-- `/bot/core/utils.py`
+The module contains some useful functions.
 
-  The file contains utility functions.
+#### 3.6. `embeds.py`, `enums.py`
 
-- `/bot/core/logger.py`
+These modules are *global* modules. For comparison, `./bot/cogs/*example_cog*/embeds.py` contains embeds for *example_cog*, it means that embeds in the module can be used only in *example_cog*, but the *global* embed means that embeds in the module can be used in every cog.
 
-  The file contains object `logger` of `logging.Logger`. Using for logging.
+#### 3.7. `template_configuration.py`
 
-- `/bot/core/configuration.py`
+There is a template for `configuration.py`.
 
-  The file contains bot configuration. More information about configuration [here](./project_configuration.md).
+## Cog structure
 
-- `/bot/core/models`
+The cog consists from the next files:
 
-  The package contains files with class inherits from `sqlalchemy.Model` inside.
+- `views.py` (if necessary)
+- `modals.py` (if necessary)
+- `embeds.py` (if necessary)
+- `enums.py` (if necessary)
+- `cog.py`
+- `__init__.py`
 
-- `/bot/core/models/example_model.py`
+## Service structure
 
-  The package contains files with class inherits from `sqlalchemy.Model` inside.
+The service consists from the next files:
 
-- `/bot/docs`
-
-  The package contains project documentation.
-
-- `/bot/services`
-
-  The package contains services. All business logic happens in services.
-
-- `/bot/services/example_service`
-
-  The package contains service. It is allowed to create additional files for the operation of this particular service.
-
-- `/bot/services/example_service/service.py`
-
-  The file contains a service class, the class should be named is like service in common.
-
-- `/bot/migrations`
-
-  Alembic migrations.
-
-- `/bot/logs`
-
-  The package contains bot log files.
+- `service.py`
+- `__init__.py`

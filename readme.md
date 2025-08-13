@@ -2,6 +2,10 @@
 
 Supports bot was made for @illaypro's discord server. Bot includes some commands for a server staff.
 
+## Installation
+
+See [install.md](./bot/docs/install.md)
+
 ## Technologies
 
 ### Stacks
@@ -10,13 +14,21 @@ Supports bot was made for @illaypro's discord server. Bot includes some commands
 
 ### Frameworks & Libraries
 
-- SQLAchemy
+- SQLAlchemy
 - Disnake
 
 ### Other tools
 
 - Alembic
-- uv
+- Poetry
+- Docker
+
+## Project documentation
+
+- [Install](./bot/docs/install.md)
+- [Project configuration](./bot/docs/project_configuration.md)
+- [Project structure](./bot/docs/project_structure.md)
+- [Env configuration](./bot/docs/env_configuration.md)
 
 ## Authors
 
