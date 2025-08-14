@@ -1,5 +1,0 @@
-aiosqlite>=0.21.0
-alembic>=1.16.4
-disnake>=2.10.1
-python-dotenv>=1.1.1
-sqlalchemy>=2.0.41
