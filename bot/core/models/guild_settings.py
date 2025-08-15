@@ -11,6 +11,7 @@ class GuildSettings(Base, IDMixin, GuildIDMixin):
     female_role_id: Mapped[int] = mapped_column(nullable=True)
     support_role_id: Mapped[int] = mapped_column(nullable=True)
     unverified_role_id: Mapped[int] = mapped_column(nullable=True)
+    supports_feedbacks_channel_id: Mapped[int] = Mapped(nullable=True)
 
 
 __all__ = ("GuildSettings",)
