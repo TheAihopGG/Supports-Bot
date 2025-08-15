@@ -5,7 +5,7 @@ from .mixins import IDMixin
 
 
 class SupportFeedback(Base, IDMixin):
-    __tablename__ = "users"
+    __tablename__ = "supports_feedbacks"
 
     guild_id: Mapped[int] = mapped_column(nullable=False)
     author_discord_id: Mapped[int] = mapped_column(nullable=False)
