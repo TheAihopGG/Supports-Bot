@@ -56,6 +56,7 @@ class VerifyCog(commands.Cog):
                                     await member.remove_roles(unverified_role)
                                 await member.add_roles(gender_role)
                                 await session.commit()
+                                # catch exc, if user dont allow to send messages to him
                                 try:
                                     await member.send(embed=YouSuccessfullyVerifiedEmbed())
                                 except CommandInvokeError:
