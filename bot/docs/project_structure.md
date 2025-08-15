@@ -62,16 +62,54 @@ There is a template for `configuration.py`.
 
 The cog consists from the next files:
 
-- `views.py` (if necessary)
-- `modals.py` (if necessary)
-- `embeds.py` (if necessary)
-- `enums.py` (if necessary)
-- `cog.py`
-- `__init__.py`
+### `views.py`
+###  `modals.py`
+###  `embeds.py`
+
+It is incorrect to use embeds like this
+```python
+await inter.response.send_message(embed=SuccessEmbed(description="Foo"))
+```
+
+Instead do this
+
+embeds.py
+```python
+class SomeEmbed(SuccessEmbed):
+  def __init__(self) -> None:
+    super().__init__(description="Foo")
+```
+
+cog.py
+```python
+await inter.response.send_message(embed=SomeEmbed())
+```
+
+###  `enums.py`
+###  `cog.py`
+
+`cog.py` must contains a class that inherits from `disnake.ext.commands.Cog`. After adding a cog, add a cog class instance as an element to the set in `main.py`:
+
+```python
+[
+    bot.add_cog(cog)
+    for cog in {
+        ...,
+        YourCog(),
+    }
+]
+```
+
+After this, new commands should work
 
 ## Service structure
 
 The service consists from the next files:
 
-- `service.py`
-- `__init__.py`
+### `service.py`
+
+There are content the main content of service, You can also add more modules in service directory, if necessary.
+
+### `__init__.py`
+
+The module must imports features from service's modules.
