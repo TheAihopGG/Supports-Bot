@@ -30,14 +30,7 @@ python3.13 -m venv .venv
 
 Copy `template.env` file, rename it to `.env`, and fill it out according to the [env file configuration](./env_configuration.md).
 
-## 6. Build the project
-
-Run
-```sh
-sudo docker build -t supports-bot
-```
-
-## 7. Launch the bot
+## 6. Build and launch the bot
 
 Run
 ```sh
