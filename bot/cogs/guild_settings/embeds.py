@@ -16,6 +16,11 @@ class UnverifiedRoleWasSetEmbed(SuccessEmbed):
         super().__init__(description="Роль для не верифицированных участников сервера успешно установлена.")
 
 
+class SupportsFeedbackChannelWasSetEmbed(SuccessEmbed):
+    def __init__(self) -> None:
+        super().__init__(description="Канал для отзывов на саппортов успешно установлен.")
+
+
 class GuildSetupWasSuccessfulEmbed(SuccessEmbed):
     def __init__(self) -> None:
         super().__init__(description="Сервер успешно настроен.")

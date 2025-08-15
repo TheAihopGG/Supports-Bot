@@ -1,10 +1,10 @@
 from disnake.ext import commands
 from disnake.ext.commands import Param
-from disnake import AppCmdInter, Member, Role
+from disnake import AppCmdInter, Member, Role, TextChannel
 
 from ...core.database import session_factory
 from ...core.embeds import NotEnoughPermissionsEmbed, GuildWasNotSetupEmbed
-from .embeds import GenderRoleWasSetEmbed, SupportRoleWasSetEmbed, GuildSetupWasSuccessfulEmbed, GuildWasAlreadySetup, UnverifiedRoleWasSetEmbed
+from .embeds import GenderRoleWasSetEmbed, SupportRoleWasSetEmbed, GuildSetupWasSuccessfulEmbed, GuildWasAlreadySetup, UnverifiedRoleWasSetEmbed, SupportsFeedbackChannelWasSetEmbed
 from ...services.guilds_settings import initialize_guild_settings, get_guild_settings
 from ...services.users import get_or_create_user_by_discord_id
 
@@ -91,6 +91,23 @@ class GuildSettingsCog(commands.Cog):
                     guild_settings.unverified_role_id = role.id
                     await session.commit()
                     await inter.response.send_message(embed=UnverifiedRoleWasSetEmbed())
+                else:
+                    await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
+        else:
+            await inter.response.send_message(embed=NotEnoughPermissionsEmbed(), ephemeral=True)
+
+    @set.sub_command(name="supports_feedbacks_channel", description="Устанавливает канал для отзывов на саппортов.")
+    async def supports_feedbacks_channel(
+        self,
+        inter: AppCmdInter,
+        channel: TextChannel = Param(description="Канал, который будет установлен как канал для отзывов на саппортов."),
+    ) -> None:
+        if inter.author.guild_permissions.administrator:
+            async with session_factory() as session:
+                if guild_settings := await get_guild_settings(session, guild_id=inter.guild_id):
+                    guild_settings.supports_feedbacks_channel_id = channel.id
+                    await session.commit()
+                    await inter.response.send_message(embed=SupportsFeedbackChannelWasSetEmbed())
                 else:
                     await inter.response.send_message(embed=GuildWasNotSetupEmbed(), ephemeral=True)
         else:
