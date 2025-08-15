@@ -9,6 +9,6 @@ class SupportFeedbackEmbed(InfoEmbed):
         text: str,
     ):
         super().__init__()
-        self.add_field("Новый отзыв", text)
+        self.add_field("Новый отзыв на саппорта", text, inline=False)
         self.add_field("От кого", f"<@{author_discord_id}>")
-        self.add_field("На кого", f"<@{support_discord_id}>")
+        self.add_field("Саппорт", f"<@{support_discord_id}>")

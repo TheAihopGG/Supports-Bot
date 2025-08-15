@@ -28,3 +28,5 @@ PROD_SQLALCHEMY_URL = f"sqlite+aiosqlite:///./bot/databases/prod_database.db"
 DEV_SQLALCHEMY_URL = f"sqlite+aiosqlite:///./bot/databases/dev_database.db"
 
 BOT_TOKEN = getenv("BOT_TOKEN")
+
+SUPPORT_FEEDBACK_TEXT_MAX_LENGTH = 4000
