@@ -11,11 +11,11 @@ intents = Intents.default()
 intents.members = True
 bot = commands.InteractionBot(intents=intents)
 [
-    bot.add_cog(cog())
+    bot.add_cog(cog)
     for cog in {
-        GuildSettingsCog,
-        VerifyCog,
-        HelpCog,
+        GuildSettingsCog(),
+        VerifyCog(),
+        HelpCog(),
     }
 ]
 
